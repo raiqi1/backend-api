@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "5dec99a3-17d4-4744-bc28-3439f3830f3c",
+		"name": "Biodata Karyawan API",
+		"description": "API Collection for testing biodata karyawan application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45792562",
+		"_collection_link": "https://crimson-crater-324157.postman.co/workspace/okay~4225752e-e699-4fee-a900-7328ec9369ff/collection/45792562-5dec99a3-17d4-4744-bc28-3439f3830f3c?action=share&source=collection_link&creator=45792562"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/signup",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('jwt_token', response.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"user123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('jwt_token', response.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@company.com\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Biodata",
+			"item": [
+				{
+					"name": "Create/Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"namaLengkap\": \"Kuyaa\",\n    \"tempatLahir\": \"Aceh\",\n    \"tanggalLahir\": \"1990-01-15\",\n    \"jenisKelamin\": \"Laki-laki\",\n    \"agama\": \"Islam\",\n    \"statusPernikahan\": \"Belum Menikah\",\n    \"alamatKTP\": \"Jl. Sudirman No. 123, Jakarta Selatan\",\n    \"alamatDomisili\": \"Jl. Sudirman No. 123, Jakarta Selatan\",\n    \"noTelepon\": \"08123456789\",\n    \"email\": \"john.doe@example.com\",\n    \"posisiDilamar\": \"Software Developer\",\n    \"gajiDiharapkan\": \"8000000\",\n    \"bersediaDitempatkanLuarKota\": true,\n    \"pendidikanTerakhir\": [\n        {\n            \"jenjang\": \"S1\",\n            \"institusi\": \"Universitas Indonesia\",\n            \"jurusan\": \"Teknik Informatika\",\n            \"tahunLulus\": \"2012\",\n            \"ipk\": \"3.75\"\n        }\n    ],\n    \"riwayatPelatihan\": [\n        {\n            \"namaPelatihan\": \"Node.js Advanced\",\n            \"penyelenggara\": \"Tech Academy\",\n            \"tahun\": \"2023\",\n            \"sertifikat\": true\n        },\n        {\n            \"namaPelatihan\": \"React Development\",\n            \"penyelenggara\": \"Code Institute\",\n            \"tahun\": \"2022\",\n            \"sertifikat\": true\n        }\n    ],\n    \"riwayatPekerjaan\": [\n        {\n            \"namaPerusahaan\": \"PT Tech Solutions\",\n            \"posisi\": \"Junior Developer\",\n            \"tahunMulai\": \"2020\",\n            \"tahunSelesai\": \"2023\",\n            \"gajiTerakhir\": \"6000000\",\n            \"alasanKeluar\": \"Mencari tantangan baru\"\n        }\n    ],\n    \"orangTerdekatDapatDihubungi\": [\n        {\n            \"nama\": \"Jane Doe\",\n            \"hubungan\": \"Istri\",\n            \"noTelepon\": \"08123456788\",\n            \"alamat\": \"Jl. Sudirman No. 123, Jakarta Selatan\"\n        },\n        {\n            \"nama\": \"Robert Doe\",\n            \"hubungan\": \"Ayah\",\n            \"noTelepon\": \"08123456787\",\n            \"alamat\": \"Jl. Kebon Jeruk No. 45, Jakarta Barat\"\n        }\n    ],\n    \"skill\": [\n        {\n            \"namaSkill\": \"JavaScript\",\n            \"level\": \"Advanced\"\n        },\n        {\n            \"namaSkill\": \"Node.js\",\n            \"level\": \"Advanced\"\n        },\n        {\n            \"namaSkill\": \"React\",\n            \"level\": \"Intermediate\"\n        },\n        {\n            \"namaSkill\": \"MySQL\",\n            \"level\": \"Intermediate\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/biodata",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"biodata"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Biodata",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/biodata/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"biodata",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Biodata (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/biodata/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"biodata",
+								"all"
+							],
+							"query": [
+								{
+									"key": "nama",
+									"value": "john",
+									"disabled": true
+								},
+								{
+									"key": "posisi",
+									"value": "manager",
+									"disabled": true
+								},
+								{
+									"key": "pendidikan",
+									"value": "S2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Biodata by ID (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/biodata/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"biodata",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Biodata (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/biodata/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"biodata",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Biodata by ID (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"namaLengkap\": \"Jane Doe Updated\",\n  \"tempatLahir\": \"Bandung\",\n  \"tanggalLahir\": \"1992-03-20\",\n  \"jenisKelamin\": \"Perempuan\",\n  \"agama\": \"Kristen\",\n  \"statusPernikahan\": \"Menikah\",\n  \"alamatKTP\": \"Jl. Braga No. 456, Bandung\",\n  \"alamatDomisili\": \"Jl. Braga No. 456, Bandung\",\n  \"noTelepon\": \"081987654321\",\n  \"email\": \"jane.doe@example.com\",\n  \"posisiDilamar\": \"UI/UX Designer\",\n  \"gajiDiharapkan\": 10000000,\n  \"pendidikanTerakhir\": [\n    {\n      \"jenjang\": \"S1\",\n      \"institusi\": \"Institut Teknologi Bandung\",\n      \"jurusan\": \"Desain Komunikasi Visual\",\n      \"tahunLulus\": 2014,\n      \"ipk\": 3.8\n    }\n  ],\n  \"riwayatPelatihan\": [\n    {\n      \"namaPelatihan\": \"Adobe Creative Suite\",\n      \"penyelenggara\": \"Adobe Certified\",\n      \"tahun\": 2023,\n      \"sertifikat\": true\n    }\n  ],\n  \"riwayatPekerjaan\": [\n    {\n      \"namaPerusahaan\": \"PT Creative Studio\",\n      \"posisi\": \"Junior Designer\",\n      \"tahunMulai\": 2018,\n      \"tahunSelesai\": 2023,\n      \"gajiTerakhir\": 7500000,\n      \"alasanKeluar\": \"Ingin mengembangkan karir\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/biodata/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"biodata",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000/api",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

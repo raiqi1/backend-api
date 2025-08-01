@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  biodata   Biodata?
+
+  @@map("users")
+}
+
+model Biodata {
+  id                          Int      @id @default(autoincrement())
+  userId                      Int      @unique
+  namaLengkap                 String
+  tempatLahir                 String
+  tanggalLahir                DateTime
+  jenisKelamin                String
+  agama                       String
+  statusPernikahan            String
+  alamatKTP                   String   @db.Text
+  alamatDomisili              String   @db.Text
+  noTelepon                   String
+  email                       String
+  posisiDilamar               String
+  gajiDiharapkan              Decimal  @db.Decimal(15, 2)
+  bersediaDitempatkanLuarKota Boolean  @default(false)
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+
+  user                        User                          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pendidikanTerakhir          PendidikanTerakhir[]
+  riwayatPelatihan            RiwayatPelatihan[]
+  riwayatPekerjaan            RiwayatPekerjaan[]
+  orangTerdekatDapatDihubungi OrangTerdekatDapatDihubungi[]
+  skill                       Skill[]
+
+  @@map("biodata")
+}
+
+model PendidikanTerakhir {
+  id         Int      @id @default(autoincrement())
+  biodataId  Int
+  jenjang    String
+  institusi  String
+  jurusan    String
+  tahunLulus Int
+  ipk        Decimal? @db.Decimal(3, 2)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  biodata Biodata @relation(fields: [biodataId], references: [id], onDelete: Cascade)
+
+  @@map("pendidikan_terakhir")
+}
+
+model RiwayatPelatihan {
+  id            Int      @id @default(autoincrement())
+  biodataId     Int
+  namaPelatihan String
+  penyelenggara String
+  tahun         Int
+  sertifikat    Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  biodata Biodata @relation(fields: [biodataId], references: [id], onDelete: Cascade)
+
+  @@map("riwayat_pelatihan")
+}
+
+model RiwayatPekerjaan {
+  id             Int      @id @default(autoincrement())
+  biodataId      Int
+  namaPerusahaan String
+  posisi         String
+  tahunMulai     Int
+  tahunSelesai   Int?
+  gajiTerakhir   Decimal  @db.Decimal(15, 2)
+  alasanKeluar   String?  @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  biodata Biodata @relation(fields: [biodataId], references: [id], onDelete: Cascade)
+
+  @@map("riwayat_pekerjaan")
+}
+
+model OrangTerdekatDapatDihubungi {
+  id        Int      @id @default(autoincrement())
+  biodataId Int
+  nama      String
+  hubungan  String
+  noTelepon String
+  alamat    String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  biodata Biodata @relation(fields: [biodataId], references: [id], onDelete: Cascade)
+
+  @@map("orang_terdekat_dapat_dihubungi")
+}
+
+model Skill {
+  id        Int      @id @default(autoincrement())
+  biodataId Int
+  namaSkill String
+  level     String // Beginner, Intermediate, Advanced, Expert
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  biodata Biodata @relation(fields: [biodataId], references: [id], onDelete: Cascade)
+
+  @@map("skills")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
